@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AP Precalculus Mock Test — Units 1 &amp; 3 — Mr. Omar</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    min-height: 100vh;
+    background: #0B1F3A;
+    color: #fff;
+    font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  input:focus, textarea:focus { outline: none; border-color: #1F6FEB !important; }
+  button { font-family: inherit; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 999px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const C = {
+  navy: "#0B1F3A", blue: "#1F6FEB", teal: "#0F766E", orange: "#F59E0B",
+  gold: "#FBBF24", sky: "#60A5FA", ink: "#111827", muted: "#4B5563",
+  coral: "#ef476f", green: "#06d6a0", mint: "#34d399",
+  red: "#DC2626", emerald: "#16A34A", purple: "#8B5CF6", indigo: "#6366F1",
+  cyan: "#22D3EE", rose: "#F43F5E",
+};
+
+const SECTIONS = [
+  "welcome",
+  "u1_roc","u1_poly","u1_rational","u1_transform","u1_compose",
+  "u3_periodic","u3_unitcircle","u3_sinusoidal","u3_phasefreq","u3_othertrig","u3_inverse",
+  "mixed","results"
+];
+const SECTION_META = {
+  welcome:"Start", u1_roc:"Rates", u1_poly:"Polynomials", u1_rational:"Rationals",
+  u1_transform:"Transforms", u1_compose:"Compose", u3_periodic:"Periodic",
+  u3_unitcircle:"Unit Circle", u3_sinusoidal:"Sinusoidal", u3_phasefreq:"Phase/Freq",
+  u3_othertrig:"Other Trig", u3_inverse:"Inverse Trig", mixed:"Mixed", results:"Results",
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// UNIT 1: POLYNOMIAL & RATIONAL FUNCTIONS (1.1 – 1.14)
+// ═══════════════════════════════════════════════════════════════════
+
+const U1_ROC = [
+  { question: "f(2) = 5 and f(6) = 21. Average rate of change on [2, 6]?", options: ["4","16","8","5.25"], correct: 0, explanation: "(21 − 5)/(6 − 2) = 16/4 = 4." },
+  { question: "For a linear function, the average rate of change on ANY interval is:", options: ["Always the same (constant)","Increasing","Decreasing","Zero"], correct: 0, explanation: "Linear functions have a constant rate of change (the slope)." },
+  { question: "A quadratic's average ROC on consecutive equal-length intervals:", options: ["Changes by a constant amount","Stays the same","Doubles each time","Is unpredictable"], correct: 0, explanation: "Second differences are constant → the rate of change changes at a constant rate." },
+  { question: "If f is concave up on an interval, the rate of change is:", options: ["Increasing","Decreasing","Constant","Zero"], correct: 0, explanation: "Concave up = graph curves upward = rate of change is increasing." },
+  { question: "Average ROC on [1,3] is −2 and on [3,5] is −6. The function is:", options: ["Concave down (ROC decreasing)","Concave up (ROC increasing)","Linear","Not enough info"], correct: 0, explanation: "ROC goes from −2 to −6 (decreasing), so the function is concave down." },
+  { question: "f(x) = x² − 4x + 1. Average ROC on [1, 5]:", options: ["2","0","4","−2"], correct: 0, explanation: "f(1) = −2, f(5) = 6. ROC = (6−(−2))/(5−1) = 8/4 = 2." },
+  { question: "If a function is DECREASING on an interval, its average ROC is:", options: ["Negative","Positive","Zero","Undefined"], correct: 0, explanation: "Decreasing → output goes down → negative ROC." },
+  { question: "On which interval does f(x) = x³ have the greatest average ROC?", options: ["[2, 3]","[0, 1]","[−1, 0]","[1, 2]"], correct: 0, explanation: "f(3)−f(2) = 27−8 = 19 over length 1 → ROC = 19, the largest." },
+];
+
+const U1_POLY = [
+  { question: "End behavior of f(x) = −3x⁵ + 2x² − 1:", options: ["x→∞: f→−∞ ; x→−∞: f→∞","x→∞: f→∞ ; x→−∞: f→−∞","x→±∞: f→∞","x→±∞: f→−∞"], correct: 0, explanation: "Odd degree, negative leading coeff → up-left, down-right." },
+  { question: "End behavior of f(x) = 2x⁴ − x³ + 5:", options: ["x→±∞: f→∞","x→±∞: f→−∞","x→∞: f→∞ ; x→−∞: f→−∞","x→∞: f→−∞ ; x→−∞: f→∞"], correct: 0, explanation: "Even degree, positive leading coeff → both ends up." },
+  { question: "f(x) = (x − 2)²(x + 3). The zero x = 2 has multiplicity:", options: ["2 (touches & bounces)","1 (crosses)","3 (inflection cross)","0"], correct: 0, explanation: "(x−2)² → multiplicity 2 → touches and bounces." },
+  { question: "How many zeros (counting multiplicity) does a degree-5 polynomial have?", options: ["Exactly 5","At most 5","At least 5","Exactly 4"], correct: 0, explanation: "Fundamental Theorem of Algebra: degree n → exactly n zeros (counting multiplicity, including complex)." },
+  { question: "Factor and find zeros: f(x) = x³ − 4x", options: ["x = 0, 2, −2","x = 0, 4","x = 2, −2","x = 0, 4, −4"], correct: 0, explanation: "x(x²−4) = x(x−2)(x+2). Zeros: 0, 2, −2." },
+  { question: "Zeros at x = −1 (mult 2) and x = 3 (mult 1). Minimum degree:", options: ["3","2","4","1"], correct: 0, explanation: "Sum of multiplicities: 2 + 1 = 3." },
+  { question: "Max turning points of f(x) = −x⁴ + 2x²:", options: ["3","4","2","1"], correct: 0, explanation: "Degree n → at most n − 1 turning points. Degree 4 → at most 3." },
+  { question: "Both ends go to −∞. The leading term could be:", options: ["−2x⁶","3x⁵","−x³","x⁴"], correct: 0, explanation: "Both ends same direction → even degree. Both down → negative leading coeff: −2x⁶." },
+  { question: "f(x) = (x+1)³(x−4). At x = −1 the graph:", options: ["Crosses with S-shape inflection","Touches and bounces","Crosses straight through","Has a vertical asymptote"], correct: 0, explanation: "Odd multiplicity (3) → crosses, and multiplicity ≥ 3 gives that flattened S-shape." },
+  { question: "Between consecutive zeros, a polynomial must:", options: ["Stay entirely above or below x-axis","Cross the x-axis again","Have a vertical asymptote","Equal zero"], correct: 0, explanation: "Polynomials are continuous → between consecutive zeros, the graph stays on one side." },
+];
+
+const U1_RATIONAL = [
+  { question: "f(x) = (x−3)/((x−3)(x+2)). At x = 3 there is:", options: ["A hole","A vertical asymptote","A zero","A horizontal asymptote"], correct: 0, explanation: "(x−3) cancels top & bottom → hole at x = 3." },
+  { question: "f(x) = (2x+1)/(x−5). Vertical asymptote at:", options: ["x = 5","x = −1/2","x = 2","x = −5"], correct: 0, explanation: "Denom = 0 at x = 5, doesn't cancel." },
+  { question: "f(x) = (3x² + 1)/(x² − 4). Horizontal asymptote:", options: ["y = 3","y = 0","y = 1","No HA"], correct: 0, explanation: "Degrees equal → HA = leading coefficients ratio = 3/1 = 3." },
+  { question: "f(x) = (x + 2)/(x² + 1). Horizontal asymptote:", options: ["y = 0","y = 1","y = 2","No HA"], correct: 0, explanation: "Degree num (1) < degree denom (2) → HA at y = 0." },
+  { question: "f(x) = (x² + 3x − 2)/(x − 1). This has:", options: ["A slant (oblique) asymptote","HA at y = 1","No asymptotes","HA at y = 0"], correct: 0, explanation: "Degree num = degree denom + 1 → slant asymptote." },
+  { question: "Zeros of f(x) = (x² − 9)/(x + 1):", options: ["x = 3 and x = −3","x = 3 only","x = −1","x = 3, −3, and −1"], correct: 0, explanation: "Zeros from numerator: x² − 9 = 0 → x = ±3. x = −1 is VA." },
+  { question: "f(x) = (x−2)/((x−2)(x+4)) simplifies to 1/(x+4). The hole's y-value:", options: ["1/6","1/4","1/2","Undefined"], correct: 0, explanation: "Hole at x = 2. Plug into simplified: 1/(2+4) = 1/6." },
+  { question: "As x → ∞, f(x) = (5x³ − 1)/(2x³ + x) approaches:", options: ["5/2","0","∞","5/3"], correct: 0, explanation: "Same degree → leading coeff ratio = 5/2." },
+  { question: "f(x) = 1/(x − 3) + 2. VA and HA:", options: ["VA: x = 3, HA: y = 2","VA: x = 2, HA: y = 3","VA: x = 3, HA: y = 0","VA: x = −3, HA: y = 2"], correct: 0, explanation: "Denom zero at x = 3 → VA. The +2 shifts HA to y = 2." },
+  { question: "The sign of f(x) = (x−1)/(x+3) on the interval (−3, 1):", options: ["Negative","Positive","Changes sign","Zero"], correct: 0, explanation: "Test x = 0: (0−1)/(0+3) = −1/3 < 0. Negative on (−3, 1)." },
+];
+
+const U1_TRANSFORM = [
+  { question: "g(x) = f(x − 3) + 2 means:", options: ["Right 3, up 2","Left 3, up 2","Right 3, down 2","Left 3, down 2"], correct: 0, explanation: "(x − 3) → right 3. +2 → up 2." },
+  { question: "g(x) = −f(x). This:", options: ["Reflects over the x-axis","Reflects over the y-axis","Shifts down","Stretches vertically"], correct: 0, explanation: "Negating the output reflects over the x-axis." },
+  { question: "g(x) = f(−x). This:", options: ["Reflects over the y-axis","Reflects over the x-axis","Shifts left","Compresses horizontally"], correct: 0, explanation: "Negating the input reflects over the y-axis." },
+  { question: "g(x) = 3f(x). Compared to f, g is:", options: ["Vertically stretched by factor 3","Horizontally stretched by factor 3","Shifted up 3","Vertically compressed"], correct: 0, explanation: "Multiply output by 3 → vertical stretch by 3." },
+  { question: "g(x) = f(2x). Compared to f, g is:", options: ["Horizontally compressed by factor 1/2","Horizontally stretched by factor 2","Vertically stretched by factor 2","Shifted right 2"], correct: 0, explanation: "Multiply input by 2 → horizontal compression by 1/2." },
+  { question: "If f(3) = 7 and g(x) = f(x) + 4, then g(3) = ?", options: ["11","7","3","28"], correct: 0, explanation: "g(3) = f(3) + 4 = 7 + 4 = 11." },
+  { question: "If f(3) = 7 and g(x) = f(x − 2), then g(5) = ?", options: ["7","9","5","14"], correct: 0, explanation: "g(5) = f(5 − 2) = f(3) = 7." },
+  { question: "g(x) = −2f(x + 1) − 3. Order of transformations:", options: ["Left 1, reflect x-axis, stretch ×2, down 3","Right 1, stretch ×2, up 3","Left 1, down 3, stretch ×2","Reflect y-axis, left 1, down 3"], correct: 0, explanation: "x+1 → left 1. −2·() → reflect & stretch ×2. −3 → down 3." },
+  { question: "Point (4, −2) on f. After g(x) = f(x − 1) + 5, the new point is:", options: ["(5, 3)","(3, 3)","(5, −7)","(3, −7)"], correct: 0, explanation: "x → x+1 = 5. y → −2 + 5 = 3. New point: (5, 3)." },
+];
+
+const U1_COMPOSE = [
+  { question: "f(x) = 2x + 1, g(x) = x². Find (f ∘ g)(3):", options: ["19","49","7","37"], correct: 0, explanation: "g(3) = 9. f(9) = 2(9)+1 = 19." },
+  { question: "f(x) = 2x + 1, g(x) = x². Find (g ∘ f)(3):", options: ["49","19","13","7"], correct: 0, explanation: "f(3) = 7. g(7) = 49." },
+  { question: "(f ∘ g)(x) means:", options: ["f(g(x)) — apply g first, then f","g(f(x))","f(x) · g(x)","f(x) + g(x)"], correct: 0, explanation: "Composition: f(g(x)). Inner function g runs first." },
+  { question: "If f(x) = 3x − 6, find f⁻¹(x):", options: ["(x + 6)/3","(x − 6)/3","3x + 6","−3x + 6"], correct: 0, explanation: "y = 3x − 6 → swap → x + 6 = 3y → y = (x+6)/3." },
+  { question: "f(f⁻¹(x)) always equals:", options: ["x","0","1","f(x)"], correct: 0, explanation: "A function composed with its inverse = identity: f(f⁻¹(x)) = x." },
+  { question: "A function has an inverse iff it is:", options: ["One-to-one (horizontal line test)","Continuous","Polynomial","Differentiable"], correct: 0, explanation: "Only one-to-one functions have inverses." },
+  { question: "Data: x = {0,1,2,3,4}, y = {2,6,18,54,162}. Best model:", options: ["Exponential (constant ratio)","Linear (constant diff)","Quadratic","Logarithmic"], correct: 0, explanation: "Ratios: 6/2=3, 18/6=3, 54/18=3, 162/54=3. Constant ratio → exponential." },
+  { question: "The domain of f⁻¹ equals:", options: ["The range of f","The domain of f","All reals","The zeros of f"], correct: 0, explanation: "Domain of f⁻¹ = Range of f." },
+  { question: "Which does NOT have an inverse on all reals?", options: ["f(x) = x²","f(x) = 3x − 1","f(x) = x³","f(x) = eˣ"], correct: 0, explanation: "x² fails horizontal line test: f(2) = f(−2) = 4." },
+  { question: "If f(2) = 5, then f⁻¹(5) = ?", options: ["2","5","1/5","10"], correct: 0, explanation: "f sends 2→5, so f⁻¹ sends 5→2." },
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// UNIT 3: TRIGONOMETRY (3.1 – 3.9)
+// ═══════════════════════════════════════════════════════════════════
+
+const U3_PERIODIC = [
+  { question: "f(x + 8) = f(x) for all x. The period is:", options: ["8","4","16","1/8"], correct: 0, explanation: "f(x+P)=f(x) with P = 8." },
+  { question: "Period 6, f(2) = 9. Find f(20):", options: ["9","20","2","Cannot tell"], correct: 0, explanation: "20 = 2 + 3(6). Three full periods → f(20) = f(2) = 9." },
+  { question: "Convert 150° to radians:", options: ["5π/6","3π/4","2π/3","7π/6"], correct: 0, explanation: "150 × π/180 = 5π/6." },
+  { question: "Convert 315° to radians:", options: ["7π/4","5π/4","3π/2","11π/6"], correct: 0, explanation: "315 × π/180 = 7π/4." },
+  { question: "Convert 11π/6 to degrees:", options: ["330°","300°","210°","150°"], correct: 0, explanation: "11π/6 × 180/π = 330°." },
+  { question: "Convert −300° to radians:", options: ["−5π/3","−5π/6","5π/3","−2π/3"], correct: 0, explanation: "−300 × π/180 = −5π/3." },
+  { question: "Coterminal angle in [0,2π) for −5π/3:", options: ["π/3","5π/3","2π/3","4π/3"], correct: 0, explanation: "−5π/3 + 2π = π/3." },
+  { question: "Coterminal angle in [0,2π) for 15π/4:", options: ["7π/4","3π/4","π/4","5π/4"], correct: 0, explanation: "15π/4 − 2π = 15π/4 − 8π/4 = 7π/4." },
+  { question: "Terminal side through P(−5, 12). sin θ = ?", options: ["12/13","−5/13","5/13","−12/13"], correct: 0, explanation: "r = √(25+144) = 13. sin θ = y/r = 12/13." },
+  { question: "Terminal side through P(−5, 12). tan θ = ?", options: ["−12/5","12/5","−5/12","5/12"], correct: 0, explanation: "tan θ = y/x = 12/(−5) = −12/5." },
+  { question: "Which function is NOT periodic?", options: ["y = |x|","y = sin x","y = cos(2x)","y = tan x"], correct: 0, explanation: "y = |x| is a V-shape that never repeats." },
+];
+
+const U3_UNITCIRCLE = [
+  { question: "sin(π/6) = ?", options: ["1/2","√3/2","√2/2","0"], correct: 0, explanation: "sin(30°) = 1/2." },
+  { question: "cos(2π/3) = ?", options: ["−1/2","1/2","−√3/2","√3/2"], correct: 0, explanation: "Ref π/3 in QII. cos neg. cos(π/3)=1/2 → −1/2." },
+  { question: "tan(π/4) = ?", options: ["1","0","√2","undefined"], correct: 0, explanation: "sin(π/4)/cos(π/4) = 1." },
+  { question: "sin(5π/3) = ?", options: ["−√3/2","√3/2","−1/2","1/2"], correct: 0, explanation: "Ref π/3 in QIV. sin neg → −√3/2." },
+  { question: "cos(3π/4) = ?", options: ["−√2/2","√2/2","−1/2","1/2"], correct: 0, explanation: "Ref π/4 in QII. cos neg → −√2/2." },
+  { question: "tan(5π/6) = ?", options: ["−√3/3","√3/3","−√3","√3"], correct: 0, explanation: "Ref π/6 in QII. tan neg. tan(π/6) = √3/3 → −√3/3." },
+  { question: "sin(3π/2) = ?", options: ["−1","0","1","undefined"], correct: 0, explanation: "Bottom of unit circle (0,−1). sin = −1." },
+  { question: "cos(0) + sin(π/2) = ?", options: ["2","1","0","−1"], correct: 0, explanation: "cos(0)=1, sin(π/2)=1. Sum = 2." },
+  { question: "θ in QIII, tan θ = 4/3. Find sin θ:", options: ["−4/5","4/5","−3/5","3/5"], correct: 0, explanation: "QIII: sin & cos both neg. y=−4, x=−3, r=5. sin = −4/5." },
+  { question: "cos(13π/6) = ?", options: ["√3/2","1/2","−√3/2","−1/2"], correct: 0, explanation: "13π/6 − 2π = π/6. cos(π/6) = √3/2." },
+];
+
+const U3_SINUSOIDAL = [
+  { question: "y = 5sin(2x) − 3. Amplitude and midline:", options: ["Amp = 5, mid y = −3","Amp = 2, mid y = −3","Amp = 5, mid y = 3","Amp = −3, mid y = 5"], correct: 0, explanation: "|A|=5, D=−3." },
+  { question: "y = 5sin(2x) − 3. Period:", options: ["π","2π","4π","2"], correct: 0, explanation: "P = 2π/|B| = 2π/2 = π." },
+  { question: "y = 5sin(2x) − 3. Max and min:", options: ["Max = 2, Min = −8","Max = 5, Min = −3","Max = 8, Min = −2","Max = 5, Min = −11"], correct: 0, explanation: "Max = D+|A| = −3+5 = 2. Min = D−|A| = −3−5 = −8." },
+  { question: "y = −3cos(x/2) + 1. Period:", options: ["4π","π","2π","π/2"], correct: 0, explanation: "P = 2π/(1/2) = 4π." },
+  { question: "Point rule for y = 4sin(3x) + 1:", options: ["(x/3, 4y + 1)","(3x, 4y + 1)","(x/3, y + 4)","(x+3, 4y)"], correct: 0, explanation: "Divide x by B, multiply y by A, add D: (x/3, 4y+1)." },
+  { question: "Max = 10, min = −4. Find |A| and D:", options: ["|A| = 7, D = 3","|A| = 5, D = 5","|A| = 10, D = −4","|A| = 14, D = 0"], correct: 0, explanation: "|A| = (10−(−4))/2 = 7. D = (10+(−4))/2 = 3." },
+  { question: "Frequency of y = 2cos(10πt):", options: ["5 Hz","10π Hz","2 Hz","10 Hz"], correct: 0, explanation: "P = 2π/(10π) = 1/5. f = 1/P = 5 Hz." },
+  { question: "y = −2cos(x) + 4. At x = 0, y = ?", options: ["2","4","6","−2"], correct: 0, explanation: "−2cos(0)+4 = −2(1)+4 = 2." },
+  { question: "Which does NOT affect the period?", options: ["Changing A","Changing B","Both affect period","Neither"], correct: 0, explanation: "A (amplitude) does not affect period. Only B does: P = 2π/|B|." },
+];
+
+const U3_PHASEFREQ = [
+  { question: "y = 2sin(3(x − π/6)) + 1. Phase shift:", options: ["π/6 right","π/6 left","3 right","π/3 right"], correct: 0, explanation: "C = π/6 > 0 → right π/6." },
+  { question: "Rewrite y = 4cos(2x + π) in B(x−C) form:", options: ["4cos(2(x + π/2))","4cos(2(x − π))","4cos(2(x + π))","4cos(2(x − π/2))"], correct: 0, explanation: "Factor: 2(x + π/2). C = −π/2." },
+  { question: "y = −sin(x − π/4). Key x-values start at:", options: ["x = π/4","x = 0","x = −π/4","x = π/2"], correct: 0, explanation: "Phase shift C = π/4, so five key x-values start at C." },
+  { question: "y = 3sin(4x − 2π). Phase shift:", options: ["π/2 right","2π right","π/4 right","2π left"], correct: 0, explanation: "Factor: 3sin(4(x − π/2)). C = π/2 → right." },
+  { question: "Graph: max at x = π/3, next min at x = 4π/3. Period:", options: ["2π","π","4π/3","4π"], correct: 0, explanation: "Max→min = half period: 4π/3 − π/3 = π. P = 2π." },
+  { question: "From previous: B = ?", options: ["1","2","1/2","3"], correct: 0, explanation: "B = 2π/P = 2π/2π = 1." },
+  { question: "Signal: 60 cycles/sec. B = ?", options: ["120π","60","60π","2π/60"], correct: 0, explanation: "f=60 → P=1/60 → B = 2π/(1/60) = 120π." },
+  { question: "Cosine starts at max. To start at MIN, easiest fix:", options: ["Make A negative","Add π to C","Change cos to sin","Double B"], correct: 0, explanation: "Negate A to reflect over midline → starts at min." },
+  { question: "h(t) = 3sin(πt/6) + 5. Tidal cycle length:", options: ["12 hours","6 hours","3 hours","2π hours"], correct: 0, explanation: "P = 2π/(π/6) = 12." },
+];
+
+const U3_OTHERTRIG = [
+  { question: "Period of y = tan(x):", options: ["π","2π","π/2","1"], correct: 0, explanation: "Tangent repeats every π." },
+  { question: "Period of y = cot(x):", options: ["π","2π","π/2","4π"], correct: 0, explanation: "Cotangent also has period π." },
+  { question: "Vertical asymptotes of y = tan(x):", options: ["x = π/2 + nπ","x = nπ","x = 2nπ","x = π/4 + nπ"], correct: 0, explanation: "tan = sin/cos. VAs where cos = 0: x = π/2 + nπ." },
+  { question: "sec(x) is defined as:", options: ["1/cos(x)","1/sin(x)","sin(x)/cos(x)","cos(x)/sin(x)"], correct: 0, explanation: "sec(x) = 1/cos(x)." },
+  { question: "csc(x) is defined as:", options: ["1/sin(x)","1/cos(x)","cos/sin","sin/cos"], correct: 0, explanation: "csc(x) = 1/sin(x)." },
+  { question: "Period of y = sec(x):", options: ["2π","π","π/2","4π"], correct: 0, explanation: "sec = 1/cos. cos has period 2π → sec has period 2π." },
+  { question: "y = tan(2x). Period:", options: ["π/2","π","2π","2"], correct: 0, explanation: "Period of tan(Bx) = π/|B| = π/2." },
+  { question: "y = 3tan(x/2) − 1. Period:", options: ["2π","π","π/2","4π"], correct: 0, explanation: "π/(1/2) = 2π." },
+  { question: "Range of y = tan(x):", options: ["(−∞, ∞)","[−1, 1]","(0, ∞)","[0, ∞)"], correct: 0, explanation: "Tangent takes all real values." },
+  { question: "VAs of y = csc(x):", options: ["x = nπ (sin = 0)","x = π/2 + nπ (cos = 0)","x = nπ/2","Nowhere"], correct: 0, explanation: "csc = 1/sin. VAs where sin = 0: x = nπ." },
+];
+
+const U3_INVERSE = [
+  { question: "Restricted domain of sin(x) for arcsin:", options: ["[−π/2, π/2]","[0, π]","[0, 2π]","[−π, π]"], correct: 0, explanation: "sin restricted to [−π/2, π/2] for one-to-one." },
+  { question: "Restricted domain of cos(x) for arccos:", options: ["[0, π]","[−π/2, π/2]","[0, 2π]","[−π, π]"], correct: 0, explanation: "cos restricted to [0, π]." },
+  { question: "Restricted domain of tan(x) for arctan:", options: ["(−π/2, π/2)","[−π/2, π/2]","(0, π)","[0, π]"], correct: 0, explanation: "Open interval (−π/2, π/2) because tan is undefined at endpoints." },
+  { question: "arcsin(1/2) = ?", options: ["π/6","π/3","5π/6","−π/6"], correct: 0, explanation: "sin(π/6) = 1/2, and π/6 ∈ [−π/2, π/2]." },
+  { question: "arccos(−√2/2) = ?", options: ["3π/4","−π/4","5π/4","π/4"], correct: 0, explanation: "cos(3π/4) = −√2/2, and 3π/4 ∈ [0, π]." },
+  { question: "arctan(−1) = ?", options: ["−π/4","3π/4","7π/4","π/4"], correct: 0, explanation: "tan(−π/4) = −1, and −π/4 ∈ (−π/2, π/2)." },
+  { question: "arcsin(−√3/2) = ?", options: ["−π/3","4π/3","5π/3","2π/3"], correct: 0, explanation: "sin(−π/3) = −√3/2, and −π/3 ∈ [−π/2, π/2]." },
+  { question: "arccos(0) = ?", options: ["π/2","0","π","3π/2"], correct: 0, explanation: "cos(π/2) = 0, and π/2 ∈ [0, π]." },
+  { question: "Range of arcsin(x):", options: ["[−π/2, π/2]","[0, π]","(−π/2, π/2)","[−1, 1]"], correct: 0, explanation: "arcsin outputs angles in [−π/2, π/2]. Domain is [−1,1]." },
+  { question: "Range of arccos(x):", options: ["[0, π]","[−π/2, π/2]","[0, 2π]","[−1, 1]"], correct: 0, explanation: "arccos outputs angles in [0, π]." },
+  { question: "arctan(√3) = ?", options: ["π/3","π/6","2π/3","π/4"], correct: 0, explanation: "tan(π/3) = √3." },
+  { question: "sin(arcsin(0.5)) = ?", options: ["0.5","π/6","1","arcsin(0.5)"], correct: 0, explanation: "sin and arcsin are inverses: sin(arcsin(x)) = x." },
+  { question: "arccos(cos(5π/3)) = ?", options: ["π/3","5π/3","−π/3","2π/3"], correct: 0, explanation: "cos(5π/3) = 1/2. arccos(1/2) = π/3 (must be in [0, π])." },
+  { question: "Domain of arcsin(x):", options: ["[−1, 1]","[−π/2, π/2]","(−∞, ∞)","[0, 1]"], correct: 0, explanation: "arcsin accepts inputs in [−1, 1]." },
+  { question: "Range of arctan(x):", options: ["(−π/2, π/2)","[−π/2, π/2]","(−∞, ∞)","[0, π]"], correct: 0, explanation: "arctan outputs in (−π/2, π/2) — open interval." },
+  { question: "arctan(0) = ?", options: ["0","π/2","π","undefined"], correct: 0, explanation: "tan(0) = 0, and 0 ∈ (−π/2, π/2)." },
+];
+
+// MIXED REVIEW
+const MIXED_REVIEW = [
+  { question: "End behavior of f(x) = −2x³ + x − 7:", options: ["x→∞: f→−∞ ; x→−∞: f→∞","x→±∞: f→−∞","x→∞: f→∞ ; x→−∞: f→−∞","x→±∞: f→∞"], correct: 0, explanation: "Odd degree, negative leading coeff → up-left, down-right." },
+  { question: "arcsin(sin(5π/6)) = ?", options: ["π/6","5π/6","−π/6","7π/6"], correct: 0, explanation: "sin(5π/6) = 1/2. arcsin(1/2) = π/6." },
+  { question: "f(x) = (x²−4)/(x²−x−6). What's at x = −2?", options: ["A hole","A VA","A zero","An HA"], correct: 0, explanation: "Num: (x−2)(x+2). Denom: (x−3)(x+2). (x+2) cancels → hole at x = −2." },
+  { question: "y = 4cos(2(x − π/3)) − 1. Phase shift and period:", options: ["Right π/3, period π","Right 2π/3, period 2π","Left π/3, period π","Right π/3, period 2π"], correct: 0, explanation: "C = π/3 → right. P = 2π/2 = π." },
+  { question: "(f∘g)(x) where f(x) = x+3, g(x) = 2x:", options: ["2x + 3","2x + 6","2(x+3)","x + 6"], correct: 0, explanation: "f(g(x)) = f(2x) = 2x + 3." },
+  { question: "arctan(0) = ?", options: ["0","π/2","π","undefined"], correct: 0, explanation: "tan(0) = 0." },
+  { question: "f(x) = x³ has an inverse because:", options: ["It passes horizontal line test","It's a polynomial","It has degree 3","It passes through origin"], correct: 0, explanation: "x³ is strictly increasing → one-to-one → invertible." },
+  { question: "tan(x + 7π) = ?", options: ["tan(x)","−tan(x)","tan(7x)","7tan(x)"], correct: 0, explanation: "Period π → tan(x + 7π) = tan(x)." },
+  { question: "f(x) = (3x+6)/(x+2). After simplifying:", options: ["f(x) = 3 with hole at x = −2","f(x) = 3 for all x","f(x) = 3x, VA at x = −2","f(x) = x + 3"], correct: 0, explanation: "3(x+2)/(x+2) = 3, undefined at x = −2 → hole." },
+  { question: "Average ROC of sin(x) on [0, π/2]:", options: ["2/π","1","0","π/2"], correct: 0, explanation: "(sin(π/2)−sin(0))/(π/2−0) = 1/(π/2) = 2/π." },
+  { question: "arccos(−1) = ?", options: ["π","0","−π","2π"], correct: 0, explanation: "cos(π) = −1, π ∈ [0,π]." },
+  { question: "Point (3,4) on f. After g(x) = −f(x−2)+5:", options: ["(5, 1)","(1, 1)","(5, 9)","(1, 9)"], correct: 0, explanation: "x → 3+2 = 5. y → −4+5 = 1. New: (5,1)." },
+  { question: "csc(π/4) = ?", options: ["√2","1","2","√2/2"], correct: 0, explanation: "1/sin(π/4) = 1/(√2/2) = √2." },
+  { question: "Poly: degree 4, positive lead, zeros x=1 (mult 2) and x=−3 (mult 2). Graph:", options: ["Touches at both, opens up","Crosses both, opens up","Touches x=1, crosses x=−3","Crosses both, opens down"], correct: 0, explanation: "Even mult → bounces at both. Even degree + positive lead → opens up." },
+  { question: "y = −5cos(2x) + 2. Maximum:", options: ["7","5","2","−3"], correct: 0, explanation: "Max = D + |A| = 2 + 5 = 7." },
+];
+
+// ─── UTILITY ──────────────────────────────────────────────────────
+function generateCode(name, scores) {
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const ts = Date.now().toString(36).slice(-4).toUpperCase();
+  const initials = name.trim().split(/\s+/).map(w => w[0]).join("").toUpperCase().slice(0,3);
+  return `${initials}-U13-${total}-${ts}`;
+}
+
+// ─── SHARED COMPONENTS ───────────────────────────────────────────
+const nextBtnStyle = {
+  padding: "14px 40px", fontSize: 15, fontWeight: 800, letterSpacing: ".04em",
+  border: "none", borderRadius: 999, cursor: "pointer", textTransform: "uppercase",
+  background: `linear-gradient(135deg, ${C.teal}, ${C.blue})`, color: "#fff",
+  transition: "all .3s", boxShadow: "0 4px 20px rgba(31,111,235,0.3)",
+};
+const checkBtnStyle = (color) => ({
+  marginTop: 8, padding: "8px 24px", fontSize: 12, fontWeight: 700,
+  border: `1px solid ${color}`, borderRadius: 999, background: "transparent",
+  color, cursor: "pointer", transition: "all .2s",
+});
+
+function ProgressBar({ current, total }) {
+  const pct = Math.round((current / (total - 1)) * 100);
+  return (
+    <div style={{ width: "100%", background: "rgba(255,255,255,0.06)", borderRadius: 999, height: 8, overflow: "hidden" }}>
+      <div style={{ width: pct+"%", height: "100%", background: `linear-gradient(90deg, ${C.cyan}, ${C.blue}, ${C.purple})`, borderRadius: 999, transition: "width 0.5s cubic-bezier(.4,0,.2,1)" }} />
+    </div>
+  );
+}
+
+function SectionNav({ idx, onNav }) {
+  return (
+    <div style={{ display: "flex", gap: 3, flexWrap: "wrap", justifyContent: "center", marginBottom: 4 }}>
+      {SECTIONS.map((s, i) => (
+        <button key={s} onClick={() => onNav(i)} style={{
+          padding: "4px 7px", fontSize: 8.5, fontWeight: i===idx?800:500,
+          border: "none", borderRadius: 999, cursor: "pointer",
+          background: i===idx ? `linear-gradient(135deg,${C.teal},${C.blue})` : "rgba(255,255,255,0.06)",
+          color: i===idx ? "#fff" : "rgba(255,255,255,0.4)", transition: "all .25s", textTransform: "uppercase",
+        }}>{SECTION_META[s]}</button>
+      ))}
+    </div>
+  );
+}
+
+function SectionHeader({ icon, title, subtitle, unitTag }) {
+  const tagColor = unitTag==="Unit 1"?C.cyan:unitTag==="Unit 3"?C.purple:C.teal;
+  return (
+    <div style={{ marginBottom: 28, animation: "fadeUp .5s ease" }}>
+      <div style={{ fontSize: 36, marginBottom: 8 }}>{icon}</div>
+      {unitTag && <div style={{ display: "inline-block", padding: "3px 12px", borderRadius: 999, fontSize: 10, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8, background: tagColor+"18", color: tagColor, border: `1px solid ${tagColor}40` }}>{unitTag}</div>}
+      <h2 style={{ fontSize: 24, fontWeight: 900, color: "#fff", marginBottom: 6, lineHeight: 1.2 }}>{title}</h2>
+      <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>{subtitle}</p>
+    </div>
+  );
+}
+
+function OptionButton({ text, selected, correct, revealed, onClick }) {
+  let bg = "rgba(255,255,255,0.04)", border = "1px solid rgba(255,255,255,0.1)", color = "rgba(255,255,255,0.85)";
+  if (selected && !revealed) { bg = "rgba(31,111,235,0.15)"; border = `1px solid ${C.blue}`; color = "#fff"; }
+  if (revealed && selected && correct) { bg = "rgba(6,214,160,0.18)"; border = `1px solid ${C.green}`; color = C.green; }
+  if (revealed && selected && !correct) { bg = "rgba(239,71,111,0.18)"; border = `1px solid ${C.coral}`; color = C.coral; }
+  if (revealed && !selected && correct) { bg = "rgba(6,214,160,0.08)"; border = `1px solid rgba(6,214,160,0.4)`; color = C.green; }
+  return (
+    <button onClick={onClick} disabled={revealed} style={{
+      display: "block", width: "100%", textAlign: "left", padding: "12px 16px", fontSize: 14, lineHeight: 1.45,
+      fontFamily: "'DM Sans',sans-serif", background: bg, border, color, borderRadius: 10,
+      cursor: revealed?"default":"pointer", transition: "all .2s", marginBottom: 8,
+    }}>
+      {text}
+      {revealed && selected && correct && <span style={{ float: "right" }}>✓</span>}
+      {revealed && selected && !correct && <span style={{ float: "right" }}>✗</span>}
+    </button>
+  );
+}
+
+function Callout({ color, title, children, style: s }) {
+  return (
+    <div style={{ background: color+"12", border: `1px solid ${color}40`, borderRadius: 12, padding: "14px 18px", marginBottom: 14, ...s }}>
+      {title && <div style={{ fontSize: 11, fontWeight: 800, color, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>{title}</div>}
+      <div style={{ fontSize: 14, color: "rgba(255,255,255,0.8)", lineHeight: 1.6 }}>{children}</div>
+    </div>
+  );
+}
+
+function Timer() {
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => { const id = setInterval(() => setElapsed(e => e+1), 1000); return () => clearInterval(id); }, []);
+  const mins = Math.floor(elapsed/60), secs = elapsed%60, warn = elapsed >= 3600;
+  return (
+    <div style={{ position: "fixed", top: 12, right: 16, background: "rgba(11,31,58,0.92)", border: `1px solid ${warn?C.coral+"60":"rgba(255,255,255,0.1)"}`, borderRadius: 10, padding: "6px 14px", fontSize: 13, fontWeight: 700, fontFamily: "'JetBrains Mono',monospace", color: warn?C.coral:"rgba(255,255,255,0.5)", zIndex: 999, backdropFilter: "blur(8px)" }}>
+      ⏱ {String(mins).padStart(2,"0")}:{String(secs).padStart(2,"0")}
+    </div>
+  );
+}
+
+// ─── WELCOME ──────────────────────────────────────────────────────
+
+function Welcome({ onNext, studentName, setStudentName }) {
+  return (
+    <div style={{ textAlign: "center", maxWidth: 560, margin: "0 auto", animation: "fadeUp .6s ease" }}>
+      <div style={{ fontSize: 64, marginBottom: 12, animation: "float 3s ease-in-out infinite" }}>🎯</div>
+      <h1 style={{ fontSize: 31, fontWeight: 900, lineHeight: 1.15, marginBottom: 8 }}>
+        <span style={{ background: `linear-gradient(135deg, ${C.cyan}, ${C.blue})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>AP Precalculus</span><br/>
+        <span style={{ background: `linear-gradient(135deg, ${C.purple}, ${C.coral})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Mock Test: Units 1 &amp; 3</span>
+      </h1>
+      <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, marginBottom: 4 }}>Polynomial &amp; Rational Functions + Trigonometry (3.1–3.9)</p>
+      <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, marginBottom: 28 }}>Mr. Omar · Austin Peace Academy</p>
+
+      <Callout color={C.cyan} title="Unit 1 — Polynomial & Rational Functions">
+        Rates of change &amp; concavity · Polynomial zeros, multiplicity &amp; end behavior · Rational functions (VA, HA, holes, slant) · Transformations · Composition &amp; Inverses · Model selection
+      </Callout>
+      <Callout color={C.purple} title="Unit 3 — Trigonometry (3.1–3.9)">
+        Periodic functions · Angles &amp; Radians · Unit Circle · Sinusoidal features &amp; graphing · Phase shifts &amp; frequency · tan/cot/sec/csc · Inverse trig (arcsin, arccos, arctan)
+      </Callout>
+      <Callout color={C.coral} title="Test Format">
+        ⏱ Target: 60 minutes · 125+ questions · 13 sections · Timer tracks your pace · Use scratch paper
+      </Callout>
+
+      <div style={{ margin: "28px 0" }}>
+        <label style={{ display: "block", fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: ".06em" }}>Enter your full name</label>
+        <input value={studentName} onChange={e => setStudentName(e.target.value)} placeholder="First and Last Name"
+          style={{ width: "100%", maxWidth: 340, padding: "14px 20px", fontSize: 16, fontWeight: 600, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 12, color: "#fff", textAlign: "center", fontFamily: "'DM Sans',sans-serif" }} />
+      </div>
+      <button onClick={onNext} disabled={!studentName.trim()} style={{ ...nextBtnStyle, opacity: studentName.trim()?1:0.35, cursor: studentName.trim()?"pointer":"not-allowed" }}>Begin Mock Test →</button>
+    </div>
+  );
+}
+
+// ─── MC SECTION ─────────────────────────────────────────────────
+
+function MCSection({ onNext, score, setScore, scoreKey, questions, icon, title, subtitle, unitTag }) {
+  const [answers, setAnswers] = useState({});
+  const [revealed, setRevealed] = useState({});
+  const allDone = Object.keys(revealed).length === questions.length;
+  const tagColor = unitTag==="Unit 1"?C.cyan:unitTag==="Unit 3"?C.purple:C.teal;
+
+  function select(qi, oi) { if (revealed[qi] !== undefined) return; setAnswers(a => ({ ...a, [qi]: oi })); }
+  function check(qi) { if (answers[qi] === undefined) return; setRevealed(r => ({ ...r, [qi]: true })); }
+
+  useEffect(() => {
+    if (allDone) {
+      const pts = questions.reduce((s, q, i) => s + (answers[i]===q.correct?1:0), 0);
+      setScore(sc => ({ ...sc, [scoreKey]: pts }));
+    }
+  }, [allDone]);
+
+  return (
+    <div style={{ animation: "fadeUp .5s ease" }}>
+      <SectionHeader icon={icon} title={title} subtitle={subtitle} unitTag={unitTag} />
+      {questions.map((q, qi) => (
+        <div key={qi} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "18px 20px", marginBottom: 16, animation: `fadeUp .4s ease ${qi*0.035}s both` }}>
+          <div style={{ fontSize: 11, color: tagColor, fontWeight: 800, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>Q{qi+1}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 12 }}>{q.question}</div>
+          {q.options.map((opt, oi) => (
+            <OptionButton key={oi} text={opt} selected={answers[qi]===oi} correct={oi===q.correct} revealed={!!revealed[qi]} onClick={() => select(qi,oi)} />
+          ))}
+          {!revealed[qi] && answers[qi]!==undefined && <button onClick={() => check(qi)} style={checkBtnStyle(C.blue)}>Check Answer</button>}
+          {revealed[qi] && answers[qi]!==q.correct && <div style={{ marginTop:8, fontSize:13, color:C.coral }}>Correct: <strong>{q.options[q.correct]}</strong></div>}
+          {revealed[qi] && q.explanation && <Callout color={answers[qi]===q.correct?C.green:C.orange} style={{ marginTop:10, marginBottom:0 }}>{q.explanation}</Callout>}
+        </div>
+      ))}
+      {allDone && (
+        <div style={{ textAlign: "center", marginTop: 16, animation: "popIn .4s ease" }}>
+          <div style={{ color: C.green, fontSize: 15, fontWeight: 700, marginBottom: 14 }}>Section complete! {score[scoreKey]||0}/{questions.length} correct</div>
+          <button onClick={onNext} style={nextBtnStyle}>Next Section →</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── RESULTS ────────────────────────────────────────────────────
+
+function ResultsSection({ score, studentName, onRestart }) {
+  const [copied, setCopied] = useState(false);
+  const sections = [
+    { key:"u1_roc", label:"Rates of Change", total:U1_ROC.length, icon:"📈", unit:1 },
+    { key:"u1_poly", label:"Polynomials", total:U1_POLY.length, icon:"📉", unit:1 },
+    { key:"u1_rational", label:"Rational Functions", total:U1_RATIONAL.length, icon:"➗", unit:1 },
+    { key:"u1_transform", label:"Transformations", total:U1_TRANSFORM.length, icon:"🔀", unit:1 },
+    { key:"u1_compose", label:"Compose & Inverse", total:U1_COMPOSE.length, icon:"🔗", unit:1 },
+    { key:"u3_periodic", label:"Periodic & Angles", total:U3_PERIODIC.length, icon:"🔄", unit:3 },
+    { key:"u3_unitcircle", label:"Unit Circle", total:U3_UNITCIRCLE.length, icon:"⭕", unit:3 },
+    { key:"u3_sinusoidal", label:"Sinusoidal", total:U3_SINUSOIDAL.length, icon:"〰️", unit:3 },
+    { key:"u3_phasefreq", label:"Phase & Frequency", total:U3_PHASEFREQ.length, icon:"↔️", unit:3 },
+    { key:"u3_othertrig", label:"Tan/Sec/Csc/Cot", total:U3_OTHERTRIG.length, icon:"📐", unit:3 },
+    { key:"u3_inverse", label:"Inverse Trig", total:U3_INVERSE.length, icon:"🔁", unit:3 },
+    { key:"mixed", label:"Mixed Review", total:MIXED_REVIEW.length, icon:"🔥", unit:0 },
+  ];
+
+  const totalPts = sections.reduce((s, sec) => s + (score[sec.key]||0), 0);
+  const totalMax = sections.reduce((s, sec) => s + sec.total, 0);
+  const pct = Math.round((totalPts/totalMax)*100);
+  const code = generateCode(studentName, score);
+
+  const u1s = sections.filter(s => s.unit===1);
+  const u3s = sections.filter(s => s.unit===3);
+  const u1Pts = u1s.reduce((s,sec)=>s+(score[sec.key]||0),0);
+  const u1Max = u1s.reduce((s,sec)=>s+sec.total,0);
+  const u3Pts = u3s.reduce((s,sec)=>s+(score[sec.key]||0),0);
+  const u3Max = u3s.reduce((s,sec)=>s+sec.total,0);
+
+  let grade="Keep Grinding!", gradeColor=C.coral, emoji="💪";
+  if(pct>=90){grade="AP Ready!";gradeColor=C.green;emoji="🏆";}
+  else if(pct>=75){grade="Strong Work!";gradeColor=C.blue;emoji="⭐";}
+  else if(pct>=60){grade="Getting There!";gradeColor=C.gold;emoji="👍";}
+
+  function copyResults(){
+    const lines=[
+      `AP PRECALCULUS MOCK TEST — UNITS 1 & 3`,`Student: ${studentName}`,
+      `Date: ${new Date().toLocaleDateString()}`,`Code: ${code}`,``,
+      `Overall: ${totalPts}/${totalMax} (${pct}%)`,`Grade: ${grade}`,``,
+      `Unit 1 (Poly & Rational): ${u1Pts}/${u1Max} (${u1Max>0?Math.round(u1Pts/u1Max*100):0}%)`,
+      `Unit 3 (Trig 3.1-3.9): ${u3Pts}/${u3Max} (${u3Max>0?Math.round(u3Pts/u3Max*100):0}%)`,
+      `Mixed: ${score.mixed||0}/${MIXED_REVIEW.length}`,``,
+      `SECTION BREAKDOWN:`,...sections.map(s=>`  ${s.label}: ${score[s.key]||0}/${s.total}`)
+    ];
+    navigator.clipboard.writeText(lines.join("\n")).then(()=>setCopied(true));
+    setTimeout(()=>setCopied(false),2500);
+  }
+
+  return (
+    <div style={{ textAlign: "center", maxWidth: 600, margin: "0 auto", animation: "fadeUp .6s ease" }}>
+      <div style={{ fontSize: 56, marginBottom: 8, animation: "float 3s ease-in-out infinite" }}>{emoji}</div>
+      <h2 style={{ fontSize: 28, fontWeight: 900, color: gradeColor, marginBottom: 4 }}>{grade}</h2>
+      <div style={{ fontSize: 15, color: "rgba(255,255,255,0.5)", marginBottom: 24 }}>{studentName}'s Results</div>
+
+      <div style={{ position: "relative", width: 170, height: 170, margin: "0 auto 28px" }}>
+        <svg viewBox="0 0 170 170" style={{ transform: "rotate(-90deg)" }}>
+          <circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="12" />
+          <circle cx="85" cy="85" r="72" fill="none" stroke={gradeColor} strokeWidth="12" strokeDasharray={(pct/100)*452+" 452"} strokeLinecap="round" style={{ transition: "stroke-dasharray 1.2s ease" }} />
+        </svg>
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ fontSize: 38, fontWeight: 900, color: "#fff" }}>{pct}%</div>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.4)" }}>{totalPts}/{totalMax}</div>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 12, marginBottom: 20, justifyContent: "center" }}>
+        {[
+          { label:"Unit 1", pts:u1Pts, max:u1Max, color:C.cyan },
+          { label:"Unit 3", pts:u3Pts, max:u3Max, color:C.purple },
+          { label:"Mixed", pts:score.mixed||0, max:MIXED_REVIEW.length, color:C.teal },
+        ].map(u => (
+          <div key={u.label} style={{ flex:1, background:u.color+"10", border:`1px solid ${u.color}30`, borderRadius:12, padding:"14px 16px" }}>
+            <div style={{ fontSize:10, fontWeight:800, color:u.color, textTransform:"uppercase", letterSpacing:".08em", marginBottom:4 }}>{u.label}</div>
+            <div style={{ fontSize:22, fontWeight:900, color:"#fff" }}>{u.max>0?Math.round(u.pts/u.max*100):0}%</div>
+            <div style={{ fontSize:11, color:"rgba(255,255,255,0.4)" }}>{u.pts}/{u.max}</div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ textAlign: "left", marginBottom: 24 }}>
+        {sections.map((sec, si) => {
+          const pts = score[sec.key]||0;
+          const p = sec.total>0?Math.round((pts/sec.total)*100):0;
+          return (
+            <div key={sec.key} style={{ display:"flex", alignItems:"center", gap:10, padding:"9px 14px", background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:10, marginBottom:7, animation:`fadeUp .3s ease ${si*0.04}s both` }}>
+              <span style={{ fontSize:15 }}>{sec.icon}</span>
+              <span style={{ flex:1, fontSize:11.5, color:"rgba(255,255,255,0.75)", fontWeight:600 }}>{sec.label}</span>
+              <div style={{ width:60, height:5, background:"rgba(255,255,255,0.06)", borderRadius:999, overflow:"hidden" }}>
+                <div style={{ width:p+"%", height:"100%", background:p===100?C.green:p>=60?C.blue:C.coral, borderRadius:999, transition:"width .6s" }} />
+              </div>
+              <span style={{ fontSize:11.5, fontWeight:700, color:"#fff", minWidth:36, textAlign:"right", fontFamily:"'JetBrains Mono',monospace" }}>{pts}/{sec.total}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, padding:20, marginBottom:20 }}>
+        <div style={{ fontSize:11, fontWeight:800, color:C.orange, textTransform:"uppercase", letterSpacing:".08em", marginBottom:8 }}>Your Completion Code</div>
+        <div style={{ fontSize:24, fontWeight:900, fontFamily:"'JetBrains Mono',monospace", color:"#fff", letterSpacing:".1em", marginBottom:12 }}>{code}</div>
+        <div style={{ fontSize:12, color:"rgba(255,255,255,0.4)", marginBottom:14 }}>Share this code with Mr. Omar or copy your full results below.</div>
+        <button onClick={copyResults} style={{ padding:"10px 28px", fontSize:13, fontWeight:700, border:`1px solid ${C.teal}`, borderRadius:999, background:copied?`${C.green}20`:"transparent", color:copied?C.green:C.teal, cursor:"pointer", transition:"all .3s" }}>
+          {copied?"✓ Copied!":"📋 Copy Full Results"}
+        </button>
+      </div>
+      <button onClick={onRestart} style={{ padding:"12px 36px", fontSize:14, fontWeight:700, border:"1px solid rgba(255,255,255,0.12)", borderRadius:999, background:"transparent", color:"rgba(255,255,255,0.5)", cursor:"pointer" }}>↻ Retake Test</button>
+    </div>
+  );
+}
+
+// ─── APP ────────────────────────────────────────────────────────
+
+function App() {
+  const [section, setSection] = useState(0);
+  const [studentName, setStudentName] = useState("");
+  const initScore = {u1_roc:0,u1_poly:0,u1_rational:0,u1_transform:0,u1_compose:0,u3_periodic:0,u3_unitcircle:0,u3_sinusoidal:0,u3_phasefreq:0,u3_othertrig:0,u3_inverse:0,mixed:0};
+  const [score, setScore] = useState({...initScore});
+  const [started, setStarted] = useState(false);
+
+  const next = () => { setSection(s => Math.min(s+1,SECTIONS.length-1)); if(!started) setStarted(true); };
+  const restart = () => { setSection(0); setStarted(false); setScore({...initScore}); };
+  useEffect(() => { const el=document.getElementById("ws-top"); if(el) el.scrollIntoView({behavior:"smooth"}); },[section]);
+
+  return (
+    <div id="ws-top" style={{ maxWidth:700, margin:"0 auto", padding:"32px 20px 60px" }}>
+      {started && section < SECTIONS.length-1 && <Timer />}
+      {section > 0 && section < SECTIONS.length-1 && (
+        <div style={{ marginBottom:20 }}>
+          <SectionNav idx={section} onNav={setSection} />
+          <div style={{ marginTop:8 }}><ProgressBar current={section} total={SECTIONS.length} /></div>
+        </div>
+      )}
+
+      {section===0 && <Welcome onNext={next} studentName={studentName} setStudentName={setStudentName} />}
+
+      {section===1 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u1_roc" questions={U1_ROC} icon="📈" title="Section 1: Rates of Change (1.1–1.3)" subtitle="Average ROC, concavity, and how rates change for different function types." unitTag="Unit 1" />}
+      {section===2 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u1_poly" questions={U1_POLY} icon="📉" title="Section 2: Polynomial Functions (1.4–1.6)" subtitle="Zeros, multiplicity, end behavior, turning points." unitTag="Unit 1" />}
+      {section===3 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u1_rational" questions={U1_RATIONAL} icon="➗" title="Section 3: Rational Functions (1.7–1.10)" subtitle="VA, HA, holes, slant asymptotes, zeros, and end behavior." unitTag="Unit 1" />}
+      {section===4 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u1_transform" questions={U1_TRANSFORM} icon="🔀" title="Section 4: Transformations (1.11)" subtitle="Shifts, reflections, stretches, compressions — applied to functions and points." unitTag="Unit 1" />}
+      {section===5 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u1_compose" questions={U1_COMPOSE} icon="🔗" title="Section 5: Composition, Inverses & Models (1.12–1.14)" subtitle="f(g(x)), finding inverses, horizontal line test, model selection." unitTag="Unit 1" />}
+
+      {section===6 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u3_periodic" questions={U3_PERIODIC} icon="🔄" title="Section 6: Periodic Functions & Angles (3.1–3.2)" subtitle="Period, degree ↔ radian, coterminal angles, trig from a point." unitTag="Unit 3" />}
+      {section===7 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u3_unitcircle" questions={U3_UNITCIRCLE} icon="⭕" title="Section 7: Unit Circle & Exact Values (3.3)" subtitle="No calculator! Reference angles + quadrant signs." unitTag="Unit 3" />}
+      {section===8 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u3_sinusoidal" questions={U3_SINUSOIDAL} icon="〰️" title="Section 8: Sinusoidal Features (3.4–3.5)" subtitle="Amplitude, period, midline, range, point rules, frequency." unitTag="Unit 3" />}
+      {section===9 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u3_phasefreq" questions={U3_PHASEFREQ} icon="↔️" title="Section 9: Phase Shifts & Frequency (3.5–3.6)" subtitle="B(x − C) form, phase shifts, key x-values, Hz." unitTag="Unit 3" />}
+      {section===10 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u3_othertrig" questions={U3_OTHERTRIG} icon="📐" title="Section 10: Tan, Sec, Csc, Cot (3.7–3.8)" subtitle="Definitions, periods, vertical asymptotes, ranges." unitTag="Unit 3" />}
+      {section===11 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="u3_inverse" questions={U3_INVERSE} icon="🔁" title="Section 11: Inverse Trig Functions (3.9)" subtitle="Restricted domains, ranges, and evaluating arcsin, arccos, arctan." unitTag="Unit 3" />}
+
+      {section===12 && <MCSection onNext={next} score={score} setScore={setScore} scoreKey="mixed" questions={MIXED_REVIEW} icon="🔥" title="Section 12: Mixed Review — Units 1 & 3" subtitle="Boss battle! Test-style problems from BOTH units combined." unitTag={null} />}
+
+      {section===13 && <ResultsSection score={score} studentName={studentName} onRestart={restart} />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
